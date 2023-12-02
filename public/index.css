@@ -1,0 +1,20 @@
+body {
+    background-image: url('https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  form {
+    background-color: rgba(255, 255, 255, 0.85); 
+  }
+
+  .sign-in-link {
+    text-align: center;
+    margin-top: 20px;
+    color: grey;
+  }
+
+  .sign-in-link a {
+    color: #007bff;
+  }
