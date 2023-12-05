@@ -1,3 +1,3 @@
-module.exports = {
-  // sessionSecret: process.env.SESSION_SECRET || 'your-secret-key',
-};
+// module.exports = {
+//   // sessionSecret: process.env.SESSION_SECRET || 'your-secret-key',
+// };

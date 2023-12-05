@@ -21,13 +21,13 @@
           </div>
           <div class="col-md-10 mx-auto col-lg-5">
 
-            <form class="p-4 p-md-5 border rounded-3 " action="/register" method="post">
+            <form class="p-4 p-md-5 border rounded-3 " action="/auth/register" method="post">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="John Citizen" required>
+                <input type="text" class="form-control" id="floatingInput" placeholder="John Citizen" name='username' required>
                 <label for="floatingInput">Username</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                <input name='password' type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                 <label for="floatingPassword">Password</label>
               </div>
               <div class="checkbox mb-3">
@@ -40,7 +40,7 @@
               <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
             
               <div class="sign-in-link">
-                Already a member? <a href="/login">Sign in</a>
+                Already a member? <a href="/login.html">Sign in</a>
               </div>
             </form>
             
