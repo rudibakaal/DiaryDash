@@ -13,17 +13,7 @@ const journalSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
-  },lz
-  attachments: [
-    {
-      type: {
-        type: String, // "image" or "text"
-        enum: ["image", "text"],
-        required: true,
-      },
-      data: String, // Base64-encoded string for images, plain text for text
-    },
-  ],
+  },
 });
 
 const Journal = mongoose.model('Journal', journalSchema);
