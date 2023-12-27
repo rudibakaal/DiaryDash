@@ -1,36 +1,22 @@
-// const express = require('express');
-// const router = express.Router();
-// const Journal = require('../models/journalModel');
-
-// // Endpoint to create a new journal entry
-// router.post('/journalEntry', async (req, res) => {
-//   try {
-//     const { title, content, attachments } = req.body;
-
-//     // Create a new journal entry in the database
-//     const newEntry = new Journal({
-//       title,
-//       content,
-//       attachments,
-//     });
-
-//     // Save the journal entry to the database
-//     const savedEntry = await newEntry.save();
-
-
-//     res.status(201).json({ message: 'Journal entry created successfully', entry: savedEntry });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
-// module.exports = router;
-
-
 const express = require('express');
 const router = express.Router();
 const Journal = require('../models/journalModel');
+
+
+// Middleware to check if the user is authenticated
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    // create basic unauthorised access HTML page later
+    res.redirect('/access-denied');
+  }
+};
+
+// Protected route requiring authentication
+router.get('/protected-route', ensureAuthenticated, (req, res) => {
+  res.send('This route is protected and requires authentication.');
+});
 
 // Route for saving a journal entry
 router.post('/save-entry', async (req, res) => {
@@ -52,5 +38,7 @@ router.post('/save-entry', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
 
 module.exports = router;

@@ -1,3 +1,4 @@
+// useModel.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -12,6 +13,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+
 
 const User = mongoose.model('User', userSchema);
 

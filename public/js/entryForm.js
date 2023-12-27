@@ -1,21 +1,3 @@
-// document.getElementById('journal-form').addEventListener('submit', function(event) {
-//   event.preventDefault();
-
-//   var content = quill.root.innerHTML;
-
-//   fetch('/api/save-entry', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ content: content }),
-//   })
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.error('Error:', error));
-// });
-
-
 document.getElementById('journal-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
