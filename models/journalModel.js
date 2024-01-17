@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
+// models/journalModel.js
 
-const journalSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const journalEntrySchema = new Schema({
+  title: String,
+  content: String,
   date: {
     type: Date,
     default: Date.now,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User', // Reference to the User model
+  },
 });
 
-const Journal = mongoose.model('Journal', journalSchema);
+const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
 
-module.exports = Journal;
+module.exports = JournalEntry;

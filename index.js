@@ -19,11 +19,19 @@ const userAuthController = require("./controllers/userAuthController");
 const passportConfig = require("./config/passportConfig"); 
 
 const flash = require("express-flash"); 
+const homeRoutes = require('./routes/homeRoutes');  
 
 
 
+const indexRoutes = require('./routes/indexRoutes');  
 
 const app = express();
+
+
+
+
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,8 +59,8 @@ app.use(flash());
 app.use("/auth", authRegister);
 app.use("/api", journalController);
 app.use("/user-auth", userAuthController);
-
-
+app.use('/home', homeRoutes); 
+app.use('/index', indexRoutes); 
 
 
 app.get("/", (req, res) => {
@@ -70,13 +78,15 @@ app.get("/entry", (req, res) => {
   res.sendFile("index.html", { root: __dirname + "/views" });
 });
 
-app.post("/api/save-entry", (req, res) => {
-  const content = req.body;
+app.use('/api', journalController);
 
-  console.log("Received content:", content);
 
-  res.json({ message: "Entry saved successfully" });
+
+
+app.get("/journal", (req, res) => {
+  res.sendFile("index.html", { root: __dirname + "/views" });
 });
+
 
 
 mongoose

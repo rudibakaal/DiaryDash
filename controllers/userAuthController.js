@@ -17,11 +17,14 @@ const verifyPassword = (enteredPassword, storedPassword, salt) => {
 };
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/', // Redirect to the homepage upon successful login
+  successRedirect: '/home.html', // Redirect to the homepage upon successful login
   failureRedirect: '/user-auth/login', // Redirect to the login page upon failed login
   failureFlash: true, // Enable flashing messages in case of authentication failure
 }), (req, res) => {
-  console.log('Login route reached');
+  console.log('Login route reached')
+    console.log(req.user); // Check if req.user is defined
+
+    ;
 
   // Inside the authentication callback function, check if the password is valid
   const enteredPassword = req.body.password; // Assuming the password is sent in the request body
@@ -60,3 +63,4 @@ router.get('/users', async (req, res) => {
 });
 
 module.exports = router;
+

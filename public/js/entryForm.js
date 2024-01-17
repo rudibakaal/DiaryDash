@@ -1,3 +1,4 @@
+// public/js/entryForm.js
 document.getElementById('journal-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
@@ -18,3 +19,7 @@ document.getElementById('journal-form').addEventListener('submit', function(even
   })
   .catch(error => console.error('Error:', error));
 });
+
+
+
+
