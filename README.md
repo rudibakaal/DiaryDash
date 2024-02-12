@@ -6,9 +6,8 @@ Explore the live app: [DiaryDash](https://diarydash.glitch.me/)
 
 ## Features
 
-- **User Authentication:** Securely register and log in with your unique username and password.
-- **Real-time Updates:** Experience live updates and notifications with Socket.IO for an interactive journaling experience.
-- **Flexible Journaling:** Create, edit, and delete journal entries with ease.
+- **User Authentication:** Implemented robust registration and login functionality, ensuring the security of user credentials with bcrypt for password hashing.
+- **Real-time Updates:** Seamlessly create, edit and delete entries, providing users with a dynamic journaling experience.
 - **Rich Text Formatting:** Format your entries using a rich text editor for expressive and visually appealing content.
 - **Responsive Design:** Enjoy a visually pleasing and responsive design, ensuring a seamless experience across devices.
 
