@@ -30,6 +30,6 @@ Explore the live app: [DiaryDash](https://diarydash.glitch.me/)
 ## License
 This project is licensed under the MIT License. 
 
-© 2023 Rudi Bakaal. All rights reserved.
+© 2023 Rudi Bakaal. 
 
    
