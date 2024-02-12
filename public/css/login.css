@@ -1,0 +1,32 @@
+body {
+    background-color: #fff;
+    font-family: 'Outfit', sans-serif;
+}
+
+
+.login-title {
+  font-family: 'Pacifico', sans-serif;
+    font-size: 50px;
+  padding-bottom: 10px
+}
+
+.login-btn {
+    padding: 13px 30px;
+    background-color: #000;
+    border: 1px solid #000;
+    border-radius: 0;
+    font-size: 18px; 
+    font-weight: bold;
+    color: #fff;
+}
+
+.login-btn:hover {
+    background-color: transparent;
+    color: #000;
+}
+
+.footer-text {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px; 
+}

@@ -1,0 +1,88 @@
+body {
+  background-color: #f0f0f0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Use min-height to ensure the decorations are at the bottom of the visible viewport */
+  position: relative; /* Needed for absolute positioning of party decoration */
+}
+
+#logo-container {
+  background-color: #f0f0f0;
+  padding: 10px;
+  z-index: 2; /* Ensure the logo stays visually above other elements */
+}
+
+#logo {
+  font-family: 'Pacifico', sans-serif;
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+#success-container {
+  width: 400px;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+  z-index: 1; /* Ensure the success container stays visually above other elements */
+}
+
+.section {
+  padding: 2em;
+}
+
+#upper-section {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+#success-icon {
+  font-size: 100px;
+}
+
+#status-message {
+  font-weight: lighter;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+#lower-section {
+  background: #fff;
+}
+
+#continue-button {
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: .75rem 1.5rem;
+  border: none;
+  border-radius: .25rem;
+  transition: background-color 0.4s ease;
+  display: inline-block;
+}
+
+#continue-button:hover {
+  background-color: #45a049;
+}
+
+#party-decoration {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 0; /* Set a lower z-index to place it behind other elements */
+}
+
+#party-decoration img {
+  max-width: 100%;
+  height: auto;
+}

@@ -24,6 +24,11 @@
             <div class="col-md-10 mx-auto col-lg-5 text-center">
                 <h1 class="display-4 fw-bold lh-1 mb-3 login-title">DiaryDash</h1>
 
+              <!-- Display error message for incorrect logins -->
+              <div class="alert alert-danger" role="alert">
+                  Incorrect username or password. Please try again.
+              </div>
+
                 <form class="p-4 p-md-5 border rounded-3" action="/user-auth/login" method="post">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="username" placeholder="Username" name='username' required>

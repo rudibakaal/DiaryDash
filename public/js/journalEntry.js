@@ -1,3 +1,4 @@
+// public/js/journalEntry.js
 document.addEventListener('DOMContentLoaded', () => {
   // Fetch user data when the page loads
   fetchUserData();

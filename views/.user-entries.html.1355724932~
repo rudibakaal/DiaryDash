@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <title>Diary Dash</title>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 bg-light" style="height: 100vh; overflow-y: scroll;">
+        <div class="list-group" id="diaryEntriesList">
+        </div>
+      </div>
+
+      <div class="col-md-9" style="height: 100vh; overflow-y: auto">
+        <div class="p-3" id="currentEntry">
+          <h1 id="currentEntryTitle">Create New Entry</h1>
+          <button type="button" class="btn btn-primary" id="newEntryButton">New Entry</button>
+        </div>
+        <form id="newEntryForm" style="display: none;">
+          <div class="mb-3">
+            <label for="newTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="newTitle" name="newTitle" required>
+          </div>
+          <div class="mb-3">
+            <label for="newContent" class="form-label">Content</label>
+            <div id="newQuillEditor" style="height: 200px;"></div>
+          </div>
+          <button type="button" class="btn btn-primary" id="saveNewButton">Save</button>
+          <button type="button" class="btn btn-secondary" id="cancelNewButton">Cancel</button>
+        </form>
+        <form id="editEntryForm" style="display: none;">
+          <div class="mb-3">
+            <label for="editTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="editTitle" name="editTitle" required>
+          </div>
+          <div class="mb-3">
+            <label for="editContent" class="form-label">Content</label>
+            <div id="editQuillEditor" style="height: 200px;"></div>
+          </div>
+          <button type="button" class="btn btn-primary" id="saveEditButton">Save</button>
+          <button type="button" class="btn btn-secondary" id="cancelEditButton">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <script>
+    let editQuillEditor = null;
+    let newQuillEditor = null;
+    let editingEntryId = null;
+
+    async function fetchDiaryEntries() {
+      try {
+        const response = await fetch('/api/user-entries');
+        if (response.ok) {
+          const data = await response.json();
+          return data.entries;
+        } else {
+          console.error('Error response text:', await response.text());
+          throw new Error('Failed to fetch diary entries');
+        }
+      } catch (error) {
+        console.error('Error fetching diary entries:', error);
+        return [];
+      }
+    }
+
+    async function renderDiaryEntries() {
+      const diaryEntriesList = document.getElementById('diaryEntriesList');
+
+      const diaryEntries = await fetchDiaryEntries();
+
+      // Reverse the order of entries
+      const reversedEntries = diaryEntries.slice().reverse();
+
+      // Clear the existing list
+      diaryEntriesList.innerHTML = "";
+
+      reversedEntries.forEach(entry => {
+        const entryLink = document.createElement('a');
+        entryLink.href = '#';
+        entryLink.classList.add('list-group-item', 'list-group-item-action');
+        entryLink.textContent = entry.title;
+        entryLink.setAttribute('data-entry-id', entry._id);
+
+        entryLink.addEventListener('click', () => renderCurrentEntry(entry));
+
+        diaryEntriesList.appendChild(entryLink);
+      });
+    }
+
+    async function renderCurrentEntry(entry) {
+      const currentEntry = document.getElementById('currentEntry');
+      const editEntryForm = document.getElementById('editEntryForm');
+      const editTitleInput = document.getElementById('editTitle');
+
+      let editingEntryId = entry._id;
+
+      if (!editQuillEditor) {
+        editQuillEditor = new Quill('#editQuillEditor', {
+          theme: 'snow',
+          placeholder: 'Start typing here...',
+        });
+
+        // Event listener for the Save button in the edit entry form
+        document.getElementById('saveEditButton').addEventListener('click', async () => {
+          await saveChanges(editingEntryId);
+        });
+      }
+
+      currentEntry.innerHTML = `
+        <h1>${entry.title}</h1>
+        <div id="editQuillEditor" style="height: 200px;"></div>
+        <button type="button" class="btn btn-warning" id="editButton">Edit</button>
+      `;
+
+      document.getElementById('editButton').addEventListener('click', () => {
+        editTitleInput.value = entry.title;
+
+        // Set Quill editor content after it has been attached to the DOM
+        setTimeout(() => {
+          editQuillEditor.root.innerHTML = entry.content;
+        }, 0);
+
+        currentEntry.style.display = 'none';
+        editEntryForm.style.display = 'block';
+      });
+    }
+
+
+    async function saveChanges(entryId) {
+      const editTitleInput = document.getElementById('editTitle');
+      const updatedEntry = {
+        title: editTitleInput.value,
+        content: editQuillEditor.root.innerHTML,
+      };
+
+      try {
+        if (!entryId) {
+          console.error('No entry selected for editing.');
+          return;
+        }
+
+        console.log(`Attempting to save changes for entry: ${entryId}`);
+
+        const response = await fetch(`/api/update-entry/${entryId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedEntry),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Failed to update entry: ${response.status} ${response.statusText}, ${errorText}`);
+        }
+
+        console.log('Editing complete.');
+
+        // Move the edited entry to the top of the list
+        moveEntryToTop(entryId);
+
+        // Reset the form and keep the current editingEntryId
+        editTitleInput.value = '';
+        editQuillEditor.root.innerHTML = '';
+
+        // Refresh the right column with the updated content
+        renderCurrentEntry(updatedEntry);
+
+        // Hide the edit form
+        const currentEntry = document.getElementById('currentEntry');
+        const editEntryForm = document.getElementById('editEntryForm');
+        currentEntry.style.display = 'block';
+        editEntryForm.style.display = 'none';
+      } catch (error) {
+        console.error('Error updating entry:', error);
+      }
+    }
+
+    function moveEntryToTop(entryId) {
+      const diaryEntriesList = document.getElementById('diaryEntriesList');
+      const entryLink = document.querySelector(`[data-entry-id="${entryId}"]`);
+
+      if (entryLink) {
+        // Remove the entry from its current position
+        diaryEntriesList.removeChild(entryLink);
+
+        // Insert the entry at the top
+        diaryEntriesList.insertBefore(entryLink, diaryEntriesList.firstChild);
+      }
+    }
+
+    async function saveNewEntry() {
+      const newTitleInput = document.getElementById('newTitle');
+      const newEntry = {
+        title: newTitleInput.value,
+        content: newQuillEditor.root.innerHTML,
+      };
+
+      try {
+        const response = await fetch('/api/save-entry', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newEntry),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to create entry: ${response.status} ${response.statusText}`);
+        }
+
+        // Call the cancelNewEntry function to hide the new entry form and display the current entry
+        cancelNewEntry();
+
+        // Refresh the left column after creating a new entry
+        renderDiaryEntries();
+      } catch (error) {
+        console.error('Error creating new entry:', error);
+      }
+    }
+
+    function showCreateNewForm() {
+      const newEntryForm = document.getElementById('newEntryForm');
+      const currentEntry = document.getElementById('currentEntry');
+
+      if (editingEntryId) {
+        saveChanges();
+      }
+
+      newEntryForm.style.display = 'block';
+      currentEntry.style.display = 'none';
+
+      if (!newQuillEditor) {
+        newQuillEditor = new Quill('#newQuillEditor', {
+          theme: 'snow',
+          placeholder: 'Start typing here...',
+        });
+      }
+
+      newQuillEditor.root.innerHTML = ''; // Clear Quill editor content for new entry
+      editingEntryId = null; // Added this line to ensure a new entry is created
+      currentEntryTitle.innerHTML = 'Create New Entry';
+    }
+
+    function clearNewEntryForm() {
+      const newTitleInput = document.getElementById('newTitle');
+      newTitleInput.value = '';
+      newQuillEditor.root.innerHTML = '';
+      editingEntryId = null;
+    }
+
+    function cancelNewEntry() {
+      const newEntryForm = document.getElementById('newEntryForm');
+      const currentEntry = document.getElementById('currentEntry');
+
+      newEntryForm.style.display = 'none';
+      currentEntry.style.display = 'block';
+      clearNewEntryForm();
+    }
+
+    document.getElementById('newEntryButton').addEventListener('click', () => {
+      showCreateNewForm();
+    });
+
+    document.getElementById('saveNewButton').addEventListener('click', async () => {
+      await saveNewEntry();
+    });
+
+    document.getElementById('cancelNewButton').addEventListener('click', () => {
+      cancelNewEntry();
+    });
+
+    // Initial rendering of diary entries
+    renderDiaryEntries();
+  </script>
+
+</body>
+
+</html>

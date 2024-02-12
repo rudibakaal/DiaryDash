@@ -3,6 +3,10 @@ const express = require('express');
 const router = express.Router();
 const JournalEntry = require('../models/journalModel');
 
+
+const path = require('path');
+
+
 // Middleware to check if the user is authenticated
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -38,5 +42,24 @@ router.post('/save-entry', ensureAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+// Retrieve all journal entries for the logged-in user
+router.get('/user-entries', ensureAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const userEntries = await JournalEntry.find({ user: userId });
+    res.json({ entries: userEntries });
+    console.log({ entries: userEntries })
+  } catch (error) {
+    console.error('Error retrieving user entries:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
 
 module.exports = router;

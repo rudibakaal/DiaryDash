@@ -1,60 +1,144 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 
+i {
+  font-size: 22.5px;
+  cursor: pointer;
 }
 
-      #home-section {
-          height: 30vh;
-      }
+#username {
+  margin-left: 5px;
+}
 
+#dropdownUser1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
 
-      .col-odd {
-          background-color: #ffffff;
-          opacity: 0.5;
-          background: repeating-linear-gradient(45deg, #2faadb, #2faadb 10px, #ffffff 10px, #ffffff 50px);
-      }
+#dropdownUser1 a {
+  display: flex;
+  align-items: center;
+}
 
-      .col-even {
-          background-color: #ffffff;
-          opacity: 0.5;
-          background: repeating-linear-gradient(-45deg, #2faadb, #2faadb 10px, #ffffff 10px, #ffffff 50px);
-      }
+#dropdownUser1 .user-info {
+  margin-right: 10px;
+}
 
+#dropdownUser1 .btn-group {
+  margin-left: auto;
+}
 
-      .row-cols-md-3 {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+.btn-group button {
+  margin-right: 10px;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
+#rightColumn {
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #e9ecef;
+}
+
+#editTitle,
+#newTitle {
+  background-color: #e9ecef;
+  border: .1px solid #cbc8c8;
+}
+
+#logo h3 {
+  font-family: 'Pacifico', sans-serif;
+  text-align: center;
+  margin-bottom: 0;
+  padding-top: 20px;
+  font-size: 35px;
+}
+
+#username {
+  margin-left: 5px;
+}
+
+/* Media queries for responsive font sizes */
+@media only screen and (max-width: 768px) {
+  i {
+    font-size: 18px;
   }
 
-  .col-odd,
-  .col-even {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 60vh;
+  #username {
+    font-size: 1px;
   }
 
-      @media (max-width: 768px) {
-          #home-section {
-              height: 25vh;
-          }
+  #logo h3 {
+    font-size: 35px; 
+  }
+}
 
-          .col {
-              height: 22vh; /* Set a fixed height for stacked columns */
-          }
-      }
+@media only screen and (max-width: 576px) {
+  i {
+    font-size: 20px;
+  }
 
-      @media (max-width: 576px) {
-          #home-section {
-              height: 20vh;
-          }
+  #username {
+    font-size: 1px;
+  }
 
-          .col {
-              height: 25vh; /* Set a fixed height for stacked columns */
-          }
-      }
+  #logo h3 {
+    font-size: 30px; 
+  }
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-warning,
+.btn-danger {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #2196F3;
+}
+
+.btn-warning {
+  background-color: #FFC107;
+}
+
+.btn-danger {
+  background-color: #FF5722;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-warning:hover,
+.btn-danger:hover {
+  background-color: #7CB342;
+}
+
+#editButton:hover {
+  background-color: #FFA000;
+}
+
+.delete-entry-btn:hover {
+  background-color: #D32F2F;
+}
+
+#currentEntryTitle {
+  background-color: #e9ecef !important;
+}
+
+#currentEntry {
+  text-align: center;
+  padding-top: 50px;
+}

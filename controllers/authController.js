@@ -31,9 +31,10 @@ exports.registerUser = async (req, res) => {
 
     const savedUser = await newUser.save();
 
-    res.status(201).json({ message: 'User registered successfully', user: savedUser });
+    // Modify the response to include success and redirect URL
+    res.status(201).redirect('/success.html');
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };

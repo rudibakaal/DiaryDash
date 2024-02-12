@@ -17,8 +17,8 @@ const verifyPassword = (enteredPassword, storedPassword, salt) => {
 };
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/home.html', // Redirect to the homepage upon successful login
-  failureRedirect: '/user-auth/login', // Redirect to the login page upon failed login
+  successRedirect: '/user-entries.html', // Redirect to the homepage upon successful login
+  failureRedirect: '/failure.html', // Redirect to the login page upon failed login
   failureFlash: true, // Enable flashing messages in case of authentication failure
 }), (req, res) => {
   console.log('Login route reached')
@@ -38,9 +38,16 @@ router.post('/login', passport.authenticate('local', {
 
 // Logout route
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+  req.logout((err) => {
+    if (err) {
+      console.error('Error during logout:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.redirect('/login.html'); // Redirect to the login after logout
+  });
 });
+
+
 
 // Render the login page
 router.get(['/login', '/user-auth/login'], (req, res) => {
@@ -48,7 +55,7 @@ router.get(['/login', '/user-auth/login'], (req, res) => {
 });
 
 // User registration route
-router.post('/register', async (req, res) => {
+router.post('/index', async (req, res) => {
   // redirect to the main page for the user after this?
 });
 
