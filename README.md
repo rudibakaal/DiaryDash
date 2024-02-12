@@ -17,8 +17,7 @@ Explore the live app: [DiaryDash](https://diarydash.glitch.me/)
 - **Backend:** Node.js, Express.js, MongoDB
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap5
 - **Authentication:** Passport.js
-- **Real-time Communication:** Socket.IO
-- **Templating Engine:** EJS (Embedded JavaScript)
+- **Security Measures:** bcrypt
 
 ## Getting Started
 
